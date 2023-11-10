@@ -1,1 +1,1 @@
-this directory is dedicated to the tasks related
+This directory is exclusively dedicated to tasks and activities within the realm of printf projects at ALX.
