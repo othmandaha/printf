@@ -17,9 +17,13 @@ int _printf(const char *format, ...)
 		return (-1);
 	count = 0;
 	va_start(args, format);
-	while (*format != '\0')
+	while (*format)
 	{
-		if (*format == '%')
+		if (*format != '%')
+		{
+			count += write(1, format, 1);
+		}
+		else
 		{
 			format++;
 			if (*format == '\0')
@@ -31,19 +35,13 @@ int _printf(const char *format, ...)
 					count += write(1, &c, 1);
 					break;
 				case 's':
-					str = va_arg(args, char *);
+					str = va_arg(args, char*);
 					count += write(1, str, (strlen(str)));
 					break;
 				case '%':
 					count += write(1, format, 1);
 					break;
-				default:
-					return (-1);
 			}
-		}
-		else
-		{
-			count += write(1, format, 1);
 		}
 		format++;
 	}
