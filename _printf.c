@@ -31,8 +31,7 @@ int _printf(const char *format, ...)
 			{
 				case 'c':
 					c = va_arg(args, int);
-					putchar(c);
-					count ++;
+					count += write(1, &c, 1);
 					break;
 				case 's':
 					str = va_arg(args, char*);
