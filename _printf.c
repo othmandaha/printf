@@ -37,14 +37,16 @@ int _printf(const char *format, ...)
 				case 's':
 					str = va_arg(args, char*);
 					if (str == NULL)
-					{
 						count += write(1, "(null)", 6);
-					}
 					else
-						count += write(1, str, (strlen(str))); break;
+						count += write(1, str, (strlen(str)));
+					break;
 				case '%':
 					count += write(1, format, 1);
 					break;
+				default:
+					fprintf(stderr, "format specefier unkown: %%%c\n", *format);
+					return (-1);
 			}
 		}
 		format++;
