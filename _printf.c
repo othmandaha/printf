@@ -36,8 +36,13 @@ int _printf(const char *format, ...)
 					break;
 				case 's':
 					str = va_arg(args, char*);
-					count += write(1, str, (strlen(str)));
-					break;
+					if (str == NULL)
+					{
+						count += write(1, "(null)", 6)
+					}
+					else
+						count += write(1, str, (strlen(str)));
+						break;
 				case '%':
 					count += write(1, format, 1);
 					break;
