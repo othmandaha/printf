@@ -42,7 +42,7 @@ int _printf(const char *format, ...)
 					}
 					else
 						count += write(1, str, (strlen(str)));
-						break;
+					break;
 				case '%':
 					count += write(1, format, 1);
 					break;
