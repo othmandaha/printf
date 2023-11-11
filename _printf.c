@@ -1,4 +1,4 @@
-#include "main.h"
+` #include "main.h"
 #include <unistd.h>
 
 int _printf(const char *format, ...)
@@ -26,28 +26,32 @@ int _printf(const char *format, ...)
         {
             format++;
 
-            if (*format != 'c' && *format != 's' && *format != '%')
+            if (*format == 'c')
             {
-                return -1;
+                buffer[buf_index++] = (char)va_arg(args, int);
             }
-
-            switch (*format)
+            else if (*format == 's')
             {
-                case 'c':
-                    buffer[buf_index++] = (char)va_arg(args, int);
-                    break;
-                case 's':
-                    {
-                        char *str = va_arg(args, char*);
-                        if (str == NULL)
-                            buf_index += snprintf(buffer + buf_index, sizeof(buffer) - buf_index, "(null)");
-                        else
-                            buf_index += snprintf(buffer + buf_index, sizeof(buffer) - buf_index, "%s", str);
-                    }
-                    break;
-                case '%':
-                    buffer[buf_index++] = '%';
-                    break;
+                char *str = va_arg(args, char*);
+                const char *output = (str == NULL) ? "(null)" : str;
+                int output_len = strlen(output);
+
+                if (buf_index + output_len >= sizeof(buffer) - 1)
+                {
+                    count += write(1, buffer, buf_index);
+                    buf_index = 0;
+                }
+
+                strcpy(buffer + buf_index, output);
+                buf_index += output_len;
+            }
+            else if (*format == '%')
+            {
+                buffer[buf_index++] = '%';
+            }
+            else
+            {
+                return -1;  // Unsupported format specifier
             }
         }
 
@@ -62,3 +66,4 @@ int _printf(const char *format, ...)
     va_end(args);
     return count;
 }
+`
