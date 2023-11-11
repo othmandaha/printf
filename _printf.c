@@ -16,6 +16,8 @@ int _printf(const char *format, ...)
 	char *str;
 	va_list args;
 
+	if (format == NULL)
+		return (-1);
 	count = 0;
 	va_start(args, format);
 	while (*format != '\0')
@@ -27,18 +29,15 @@ int _printf(const char *format, ...)
 			{
 				case 'c':
 					c = va_arg(args, int);
-					count++;
-					write(1, &c, 1);
+					count += write(1, &c, 1);
 					break;
 				case 's':
 					str = va_arg(args, char *);
-					count += strlen(str);
-					write(1, str, strlen(str));
+					count += write(1, str, strlen(str));
 					break;
 				case '%':
 					c = '%';
-					count++;
-					write(1, &c, 1);
+					count += write(1, &c, 1);
 					break;
 			}
 		}
