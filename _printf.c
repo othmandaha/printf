@@ -3,6 +3,12 @@
 #include <unistd.h>
 #include <string.h>
 
+/**
+ * _printf - a custom printf function
+ * @format: string with or without format specifiers
+ *
+ * Return: returns the number of characters printed
+ */
 int _printf(const char *format, ...)
 {
 	int count;
@@ -23,7 +29,7 @@ int _printf(const char *format, ...)
 					c = va_arg(args, int);
 					count++;
 					write(1, &c, 1);
-					break;	
+					break;
 				case 's':
 					str = va_arg(args, char *);
 					count += strlen(str);
@@ -33,7 +39,7 @@ int _printf(const char *format, ...)
 					c = '%';
 					count++;
 					write(1, &c, 1);
-					break;	
+					break;
 			}
 		}
 		else
