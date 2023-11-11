@@ -9,7 +9,6 @@
 int _printf(const char *format, ...)
 {
 	int count;
-	int c;
 	char *str;
 	va_list args;
 
@@ -34,8 +33,7 @@ int _printf(const char *format, ...)
 					count += write(1, str, (strlen(str)));
 					break;
 				case '%':
-					c = '%';
-					count += write(1, &c, 1);
+					count += write(1, &va_arg(args, int), 1);
 					break;
 			}
 		}
