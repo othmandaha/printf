@@ -1,5 +1,16 @@
-` #include "main.h"
+`#include "main.h"
 #include <unistd.h>
+
+void append_str_to_buffer(const char *str, char *buffer, int *buf_index) {
+    while (*str) {
+        buffer[(*buf_index)++] = *str++;
+
+        if (*buf_index == sizeof(buffer) - 1) {
+            write(1, buffer, *buf_index);
+            *buf_index = 0;
+        }
+    }
+}
 
 int _printf(const char *format, ...)
 {
@@ -34,20 +45,17 @@ int _printf(const char *format, ...)
             {
                 char *str = va_arg(args, char*);
                 const char *output = (str == NULL) ? "(null)" : str;
-                int output_len = strlen(output);
-
-                if (buf_index + output_len >= sizeof(buffer) - 1)
-                {
-                    count += write(1, buffer, buf_index);
-                    buf_index = 0;
-                }
-
-                strcpy(buffer + buf_index, output);
-                buf_index += output_len;
+                append_str_to_buffer(output, buffer, &buf_index);
             }
             else if (*format == '%')
             {
                 buffer[buf_index++] = '%';
+
+                if (buf_index == sizeof(buffer) - 1)
+                {
+                    count += write(1, buffer, buf_index);
+                    buf_index = 0;
+                }
             }
             else
             {
@@ -66,4 +74,3 @@ int _printf(const char *format, ...)
     va_end(args);
     return count;
 }
-`
