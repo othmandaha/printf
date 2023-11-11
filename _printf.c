@@ -1,5 +1,3 @@
-#include <unistd.h>
-#include <string.h>
 #include "main.h"
 
 /**
@@ -33,7 +31,8 @@ int _printf(const char *format, ...)
 			{
 				case 'c':
 					c = va_arg(args, int);
-					count += write(1, &c, 1);
+					putchar(c);
+					count ++;
 					break;
 				case 's':
 					str = va_arg(args, char*);
