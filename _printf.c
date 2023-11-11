@@ -10,7 +10,7 @@ int _printf(const char *format, ...)
 	int char_print = 0;
 	int str_len = 0;
 	va_list list_of_args;
-	char *str
+	char *str;
 
 	if (format == NULL)
 		return (-1);
@@ -36,7 +36,7 @@ int _printf(const char *format, ...)
 			{
 				char c = va_arg(list_of_args, int);
 				write(1, &c, 1);
-				char_print;
+				char_print++;
 			}
 			else if (*format == 's')
 			{
