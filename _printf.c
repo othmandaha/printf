@@ -10,6 +10,7 @@ int _printf(const char *format, ...)
 {
 	int count;
 	char *str;
+	int c;
 	va_list args;
 
 	if (format == NULL)
@@ -26,7 +27,8 @@ int _printf(const char *format, ...)
 			switch (*format)
 			{
 				case 'c':
-					count += write(1, &va_arg(args, int), 1);
+					c = va_arg(args, int);
+					count += write(1, &c , 1);
 					break;
 				case 's':
 					str = va_arg(args, char *);
