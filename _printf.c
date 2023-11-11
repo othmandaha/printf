@@ -1,76 +1,51 @@
-`#include "main.h"
-#include <unistd.h>
+#include "main.h"
 
-void append_str_to_buffer(const char *str, char *buffer, int *buf_index) {
-    while (*str) {
-        buffer[(*buf_index)++] = *str++;
-
-        if (*buf_index == sizeof(buffer) - 1) {
-            write(1, buffer, *buf_index);
-            *buf_index = 0;
-        }
-    }
-}
-
+/**
+ * _printf - a custom printf function
+ * @format: string with or without format specifiers
+ *
+ * Return: returns the number of characters printed
+ */
 int _printf(const char *format, ...)
 {
-    char buffer[1024];
-    int count = 0;
-    int buf_index = 0;
+	int count, c;
+	char *str;
+	va_list args;
 
-    va_list args;
-    va_start(args, format);
-
-    while (*format)
-    {
-        if (*format != '%')
-        {
-            buffer[buf_index++] = *format;
-
-            if (buf_index == sizeof(buffer) - 1)
-            {
-                count += write(1, buffer, buf_index);
-                buf_index = 0;
-            }
-        }
-        else
-        {
-            format++;
-
-            if (*format == 'c')
-            {
-                buffer[buf_index++] = (char)va_arg(args, int);
-            }
-            else if (*format == 's')
-            {
-                char *str = va_arg(args, char*);
-                const char *output = (str == NULL) ? "(null)" : str;
-                append_str_to_buffer(output, buffer, &buf_index);
-            }
-            else if (*format == '%')
-            {
-                buffer[buf_index++] = '%';
-
-                if (buf_index == sizeof(buffer) - 1)
-                {
-                    count += write(1, buffer, buf_index);
-                    buf_index = 0;
-                }
-            }
-            else
-            {
-                return -1;  // Unsupported format specifier
-            }
-        }
-
-        format++;
-    }
-
-    if (buf_index > 0)
-    {
-        count += write(1, buffer, buf_index);
-    }
-
-    va_end(args);
-    return count;
+	if (format == NULL)
+		return (-1);
+	count = 0;
+	va_start(args, format);
+	while (*format)
+	{
+		if (*format != '%')
+		{
+			count += write(1, format, 1);
+		}
+		else
+		{
+			format++;
+			if (*format != 'c' && *format != 's' && *format != '%')
+				return (-1);
+			switch (*format)
+			{
+				case 'c':
+					c = va_arg(args, int);
+					count += write(1, &c, 1);
+					break;
+				case 's':
+					str = va_arg(args, char*);
+					if (str == NULL)
+						count += write(1, "(null)", 6);
+					else
+						count += write(1, str, (strlen(str)));
+					break;
+				case '%':
+					count += write(1, format, 1);
+					break;
+			}
+		}
+		format++;
+	}
+	return (count);
 }
