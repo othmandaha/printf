@@ -33,14 +33,13 @@ int _printf(const char *format, ...)
 					count += write(1, str, (strlen(str)));
 					break;
 				case '%':
-					count += write(1, &va_arg(args, int), 1);
+					count += write(1, format, 1);
 					break;
 			}
 		}
 		else
 		{
-			c = *format;
-			count += write(1, &c, 1);
+			count += write(1, format, 1);
 		}
 		format++;
 	}
