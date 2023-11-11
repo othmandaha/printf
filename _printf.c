@@ -27,12 +27,11 @@ int _printf(const char *format, ...)
 			switch (*format)
 			{
 				case 'c':
-					c = va_arg(args, int);
-					count += write(1, &c, 1);
+					count += write(1, &va_arg(args, int), 1);
 					break;
 				case 's':
 					str = va_arg(args, char *);
-					count += write(1, str, (strlen(str) - 1));
+					count += write(1, str, (strlen(str)));
 					break;
 				case '%':
 					c = '%';
@@ -47,5 +46,6 @@ int _printf(const char *format, ...)
 		}
 		format++;
 	}
+	va_end(args);
 	return (count);
 }
