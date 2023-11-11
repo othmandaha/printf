@@ -44,9 +44,6 @@ int _printf(const char *format, ...)
 				case '%':
 					count += write(1, format, 1);
 					break;
-				default:
-					fprintf(stderr, "format specefier unkown: %%%c\n", *format);
-					return (-1);
 			}
 		}
 		format++;
