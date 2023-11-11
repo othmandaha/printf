@@ -1,100 +1,57 @@
 #include "main.h"
 
-#define BUFFER_SIZE 1024
-
 /**
- * print_buffer - prints the contents of the buffer and resets the index
- * @buffer: the buffer to be printed
- * @buff_ind: pointer to the buffer index, will be reset to 0 after printing
- */
-void print_buffer(char buffer[], int *buff_ind)
-{
-	write(1, buffer, *buff_ind);
-	*buff_ind = 0;
-}
-
-/**
- * _printf - a custom printf function with a buffer
- * @format: string with or without format specifiers
- *
- * Return: returns the number of characters printed
+ * _printf - Printf function
+ * @format: format.
+ * Return: Printed chars.
  */
 int _printf(const char *format, ...)
 {
-	int count = 0;
-	char buffer[BUFFER_SIZE];
-	int buffer_index = 0;
-	va_list args;
+	int char_print = 0;
+	int str_len = 0;
+	va_list list_of_args;
+	char *str
 
 	if (format == NULL)
 		return (-1);
-
-	va_start(args, format);
-
+	va_start(list_of_args, format);
 	while (*format)
 	{
 		if (*format != '%')
 		{
-			if (buffer_index == BUFFER_SIZE - 1)
-			{
-				print_buffer(buffer, &buffer_index);
-			}
-
-			buffer[buffer_index++] = *format;
-			count++;
+			write(1, format, 1);
+			char_print++;
 		}
 		else
 		{
 			format++;
-			if (*format != 'c' && *format != 's' && *format != '%')
-				return (-1);
-
-			switch (*format)
+			if (*format == '\0')
+				break;
+			if (*format == '%')
 			{
-			case 'c':
-				if (buffer_index == BUFFER_SIZE - 1)
-				{
-					print_buffer(buffer, &buffer_index);
-				}
-
-				buffer[buffer_index++] = va_arg(args, int);
-				count++;
-				break;
-
-			case 's':
-				{
-					const char *str = va_arg(args, const char *);
-					size_t len = strlen(str);
-
-					if (buffer_index + len >= BUFFER_SIZE)
-					{
-						print_buffer(buffer, &buffer_index);
-					}
-
-					memcpy(buffer + buffer_index, str, len);
-					buffer_index += len;
-					count += len;
-				}
-				break;
-
-			case '%':
-				if (buffer_index == BUFFER_SIZE - 1)
-				{
-					print_buffer(buffer, &buffer_index);
-				}
-
-				buffer[buffer_index++] = '%';
-				count++;
-				break;
+				write(1, format, 1);
+				char_print++;
+			}
+			else if (*format == 'c')
+			{
+				char c = va_arg(list_of_args, int);
+				write(1, &c, 1);
+				char_print;
+			}
+			else if (*format == 's')
+			{
+				str = va_arg(list_of_args, char*);
+				while (str[str_len] != '\0')
+					str_len++;
+				write(1, str, str_len);
+				char_print += str_len;
 			}
 		}
 		format++;
+
+
+
 	}
-
-	print_buffer(buffer, &buffer_index);
-
-	va_end(args);
-
-	return (count);
+	va_end(list_of_args);
+	return (char_print);
 }
-
