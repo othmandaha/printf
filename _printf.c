@@ -25,7 +25,7 @@ int _printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			if (*format != 'c' || *format != 's' || *format != '%')
+			if (*format != 'c' && *format != 's' && *format != '%')
 				return (-1);
 			switch (*format)
 			{
