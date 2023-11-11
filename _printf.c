@@ -22,8 +22,8 @@ int _printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			if (*format != 'c' && *format != 's' && *format != '%')
-				return (-1);
+			if (*format == '\0')
+				break;
 			switch (*format)
 			{
 				case 'c':
@@ -37,6 +37,8 @@ int _printf(const char *format, ...)
 				case '%':
 					count += write(1, format, 1);
 					break;
+				default:
+					return (-1);
 			}
 		}
 		else
