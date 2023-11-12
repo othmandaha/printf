@@ -12,6 +12,7 @@ int print_char(const char **format, char buffer[], int count)
 {
 	char c;
 	int index;
+	int i;
 
 	c = **format;
 	if (count < BUFFER_SIZE - 1)
@@ -24,7 +25,7 @@ int print_char(const char **format, char buffer[], int count)
 	{
 		index = 0;
 		write(1, buffer, BUFFER_SIZE - 1);
-		for (int i = 0; i < BUFFER_SIZE; i++)
+		for (i = 0; i < BUFFER_SIZE; i++)
 		{
 			buffer[i] = '\0';
 		}
@@ -45,6 +46,7 @@ int handle_char(va_list args, char buffer[], int count)
 {
 	char c;
 	int index;
+	int i;
 
 	c = va_arg(args, int);
 	if (count < BUFFER_SIZE - 1)
@@ -57,7 +59,7 @@ int handle_char(va_list args, char buffer[], int count)
 	{
 		index = 0;
 		write(1, buffer, BUFFER_SIZE - 1);
-		for (int i = 0; i < BUFFER_SIZE; i++)
+		for (i = 0; i < BUFFER_SIZE; i++)
 		{
 			buffer[i] = '\0';
 		}
@@ -74,9 +76,10 @@ int handle_char(va_list args, char buffer[], int count)
  *
  * Return: returns the number of characters handled
  */
-int handle_percent(va_list args, char buffer[], int count)
+int handle_percent(char buffer[], int count)
 {
 	int index;
+	int i;
 
 	if (count < BUFFER_SIZE - 1)
 	{
@@ -88,7 +91,7 @@ int handle_percent(va_list args, char buffer[], int count)
 	{
 		index = 0;
 		write(1, buffer, BUFFER_SIZE - 1);
-		for (int i = 0; i < BUFFER_SIZE; i++)
+		for (i = 0; i < BUFFER_SIZE; i++)
 		{
 			buffer[i] = '\0';
 		}
@@ -110,6 +113,8 @@ int handle_string(va_list args, char buffer[], int count)
 	int len;
 	int index;
 	char *str;
+	int j;
+	int i;
 
 	str = va_arg(args, char*);
 	if (str == NULL)
@@ -120,7 +125,7 @@ int handle_string(va_list args, char buffer[], int count)
 	if ((count + len) < BUFFER_SIZE - 1)
 	{
 		index = count++;
-		for (int j = 0; j < len; j++)
+		for (j = 0; j < len; j++)
 		{
 			buffer[index] = str[j];
 			index++;
@@ -131,11 +136,11 @@ int handle_string(va_list args, char buffer[], int count)
 	{
 		index = 0;
 		write(1, buffer, BUFFER_SIZE - 1);
-		for (int i = 0; i < BUFFER_SIZE; i++)
+		for (i = 0; i < BUFFER_SIZE; i++)
 		{
 			buffer[i] = '\0';
 		}
-		for (int j = 0; j < len; j++)
+		for (j = 0; j < len; j++)
 		{
 			buffer[index] = str[j];
 			index++;

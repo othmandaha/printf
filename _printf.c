@@ -9,7 +9,6 @@
 int _printf(const char *format, ...)
 {
 	int count;
-	char *str;
 	va_list args;
 	char buffer[BUFFER_SIZE];
 
@@ -37,7 +36,7 @@ int _printf(const char *format, ...)
 					count += handle_string(args, buffer, count);
 					break;
 				case '%':
-					count += handle_percent(args, buffer, count);
+					count += handle_percent(buffer, count);
 					break;
 			}
 		}
