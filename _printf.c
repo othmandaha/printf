@@ -1,5 +1,7 @@
-
 #include "main.h"
+#include <stdio.h>
+
+void print_buf(char buffer[], int *buf_ind);
 
 /**
  * _printf - a custom printf function
@@ -9,14 +11,13 @@
  */
 int _printf(const char *format, ...)
 {
-	int count;
-	char *str;
-	int c;
+	int count, buf_ind, printed;
 	va_list args;
+	char buffer[BUFFER_SIZE];
 
+	printed = 0;
+	buf_ind = 0;
 	if (!format || (format[0] == '%' && !format[1]))
-		return (-1);
-	if (format[0] == '%' && format[1] == ' ' && !format[2])
 		return (-1);
 	count = 0;
 	va_start(args, format);
@@ -24,32 +25,31 @@ int _printf(const char *format, ...)
 	{
 		if (*format != '%')
 		{
-			count += write(1, format, 1);
+			buffer[buf_ind++] = *format;
+			if (buf_ind == BUFFER_SIZE)
+				print_buf(buffer, &buf_ind);
+			count++;
 		}
 		else
 		{
-			format++;
-			if (*format != 'c' && *format != 's' && *format != '%')
-				return (-1);
-			switch (*format)
-			{
-				case 'c':
-					c = va_arg(args, int);
-					count += write(1, &c, 1);
-					break;
-				case 's':
-					str = va_arg(args, char*);
-					if (str == NULL)
-						count += write(1, "(null)", 6);
-					else
-						count += write(1, str, (strlen(str)));
-					break;
-				case '%':
-					count += write(1, "%%", 1);
-					break;
-			}
+			print_buf(buffer, &buf_ind);
+			++format;
+			printed += fun_find(&format, args, buffer);
+			count += printed;
 		}
 		format++;
 	}
-	return(count);
+	return (count);
+}
+
+/**
+ * print_buf - Prints the contents of the buffer if it exist
+ * @buffer: Array of chars
+ * @buf_ind: Index at which to add next char, represents the length.
+ */
+void print_buf(char buffer[], int *buf_ind)
+{
+	if (*buf_ind > 0)
+		write(1, &buffer[0], *buf_ind);
+	*buf_ind = 0;
 }
