@@ -13,6 +13,7 @@ int print_char(const char **format, char buffer[], int count)
 	char c;
 	int index;
 	int i;
+
 	if (**format != '\0')
 	{
 		c = **format;
@@ -37,7 +38,7 @@ int print_char(const char **format, char buffer[], int count)
 		}
 	}
 	else
-		return(0);
+		return (0);
 }
 
 /**
