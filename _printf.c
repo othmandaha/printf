@@ -25,10 +25,18 @@ int _printf(const char *format, ...)
 	{
 		if (*format != '%')
 		{
-			buffer[buf_ind++] = *format;
-			if (buf_ind == BUFFER_SIZE)
+			if (*format == '\n')
+			{
 				print_buf(buffer, &buf_ind);
-			count++;
+				write(1, "\n", 1);
+			}
+			else
+			{
+				buffer[buf_ind++] = *format;
+				if (buf_ind == BUFFER_SIZE)
+					print_buf(buffer, &buf_ind);
+				count++;
+			}
 		}
 		else
 		{
