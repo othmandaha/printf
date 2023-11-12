@@ -13,25 +13,31 @@ int print_char(const char **format, char buffer[], int count)
 	char c;
 	int index;
 	int i;
-
-	c = **format;
-	if (count < BUFFER_SIZE - 1)
+	if (**format != '\0')
 	{
-		index = count++;
-		buffer[index] = c;
-		return (1);
+		c = **format;
+		if (count < BUFFER_SIZE - 1)
+		{
+			index = count;
+			buffer[index] = c;
+			count++;
+			return (1);
+		}
+		else
+		{
+			index = 0;
+			write(1, buffer, BUFFER_SIZE - 1);
+			for (i = 0; i < BUFFER_SIZE; i++)
+			{
+				buffer[i] = '\0';
+			}
+			buffer[index] = c;
+			count++;
+			return (1);
+		}
 	}
 	else
-	{
-		index = 0;
-		write(1, buffer, BUFFER_SIZE - 1);
-		for (i = 0; i < BUFFER_SIZE; i++)
-		{
-			buffer[i] = '\0';
-		}
-		buffer[index] = c;
-		return (1);
-	}
+		return(0);
 }
 
 /**
@@ -51,8 +57,9 @@ int handle_char(va_list args, char buffer[], int count)
 	c = va_arg(args, int);
 	if (count < BUFFER_SIZE - 1)
 	{
-		index = count++;
+		index = count;
 		buffer[index] = c;
+		count++;
 		return (1);
 	}
 	else
@@ -83,8 +90,9 @@ int handle_percent(char buffer[], int count)
 
 	if (count < BUFFER_SIZE - 1)
 	{
-		index = count++;
+		index = count;
 		buffer[index] = '%';
+		count++;
 		return (1);
 	}
 	else
@@ -96,6 +104,7 @@ int handle_percent(char buffer[], int count)
 			buffer[i] = '\0';
 		}
 		buffer[index] = '%';
+		count++;
 		return (1);
 	}
 }
@@ -124,12 +133,13 @@ int handle_string(va_list args, char buffer[], int count)
 
 	if ((count + len) < BUFFER_SIZE - 1)
 	{
-		index = count++;
+		index = count;
 		for (j = 0; j < len; j++)
 		{
 			buffer[index] = str[j];
 			index++;
 		}
+		count++;
 		return (len);
 	}
 	else
@@ -145,6 +155,7 @@ int handle_string(va_list args, char buffer[], int count)
 			buffer[index] = str[j];
 			index++;
 		}
+		count++;
 		return (len);
 	}
 }
