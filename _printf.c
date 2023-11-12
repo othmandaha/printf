@@ -49,4 +49,5 @@ int _printf(const char *format, ...)
 		}
 		format++;
 	}
+	return(count);
 }
