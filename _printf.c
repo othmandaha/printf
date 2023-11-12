@@ -1,3 +1,4 @@
+
 #include "main.h"
 
 /**
@@ -9,8 +10,9 @@
 int _printf(const char *format, ...)
 {
 	int count;
+	char *str;
+	int c;
 	va_list args;
-	char buffer[BUFFER_SIZE];
 
 	if (format == NULL)
 		return (-1);
@@ -20,7 +22,7 @@ int _printf(const char *format, ...)
 	{
 		if (*format != '%')
 		{
-			count += print_char(&format, buffer, count);
+			count += write(1, format, 1);
 		}
 		else
 		{
@@ -30,18 +32,21 @@ int _printf(const char *format, ...)
 			switch (*format)
 			{
 				case 'c':
-					count += handle_char(args, buffer, count);
+					c = va_arg(args, int);
+					count += write(1, &c, 1);
 					break;
 				case 's':
-					count += handle_string(args, buffer, count);
+					str = va_arg(args, char*);
+					if (str == NULL)
+						count += write(1, "(null)", 6);
+					else
+						count += write(1, str, (strlen(str)));
 					break;
 				case '%':
-					count += handle_percent(buffer, count);
+					count += write(1, "%%", 1);
 					break;
 			}
 		}
 		format++;
 	}
-	write(1, buffer, count);
-	return (count);
 }
