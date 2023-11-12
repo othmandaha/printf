@@ -10,8 +10,8 @@ int _printf(const char *format, ...)
 {
 	int count;
 	char *str;
-	int c;
 	va_list args;
+	char buffer[BUFFER_SIZE];
 
 	if (format == NULL)
 		return (-1);
@@ -21,7 +21,7 @@ int _printf(const char *format, ...)
 	{
 		if (*format != '%')
 		{
-			count += write(1, format, 1);
+			count += print_char(*format, buffer, count);
 		}
 		else
 		{
@@ -31,18 +31,13 @@ int _printf(const char *format, ...)
 			switch (*format)
 			{
 				case 'c':
-					c = va_arg(args, int);
-					count += write(1, &c, 1);
+					count += handle_char(args, buffer, count);
 					break;
 				case 's':
-					str = va_arg(args, char*);
-					if (str == NULL)
-						count += write(1, "(null)", 6);
-					else
-						count += write(1, str, (strlen(str)));
+					count += handle_string(args, buffer, count);
 					break;
 				case '%':
-					count += write(1, format, 1);
+					count += handle_percent(args, buffer, count);
 					break;
 			}
 		}
