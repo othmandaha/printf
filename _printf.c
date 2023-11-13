@@ -51,4 +51,3 @@ int _printf(const char *format, ...)
 
 	return (chars_count);
 }
-
