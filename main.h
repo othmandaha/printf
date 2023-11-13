@@ -1,42 +1,20 @@
-#ifndef _MAIN_H_
-#define _MAIN_H_
+#ifndef PRINTF_HEADER_H
+#define PRINTF_HEADER_H
 
 #include <stdarg.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdlib.h>
 #include <unistd.h>
-#include <string.h>
-#include <stdio.h>
 
-#define BUFFER_SIZE 1024
-#define UNUSED(x) (void)(x)
-
-/**
- * struct fmt - Struct op
- *
- * @fmt: The format.
- * @fn: pointer to the coresponding function
- */
-
-struct fmt
-{
-	char fmt;
-	int (*fn)(va_list, char[]);
-};
-
-/**
- * typedef struct fmt fmt_t - Struct op
- *
- * @fmt: The format.
- * @fm_t: The function associated with it.
- */
-typedef struct fmt fmt_t;
+int _putchar(char c);
+size_t _strlen(const char *str);
+int print_string(const char *str);
+int print_invalid(char c);
+int print_number(int num);
+int print_binary(unsigned int n);
+char *convert_base(unsigned long number, int base, bool upper);
 
 int _printf(const char *format, ...);
-int fun_find(const char **fmt, va_list args, char buffer[]);
-int print_char(va_list args, char buffer[]);
-int print_percent(va_list args, char buffer[]);
-int print_string(va_list args, char buffer[]);
-
-
-
 
 #endif
