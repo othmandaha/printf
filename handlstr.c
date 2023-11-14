@@ -15,9 +15,9 @@ int print_string(const char *str)
 					str = "(null)";
 
 					len = _strlen(str);
-					}
+					
 				for (i = 0; i < len; i++)
 					_putchar(str[i]);
-
+					}
 		return (len);
 }
