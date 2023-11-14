@@ -8,25 +8,22 @@
 
 int print_string(const char *str)
 {
-	int i, len = 0;
+	int chars_count = 0;
 
-	if (!str)
-{
-		len = 5;
-		for (i = 0; i < len; i++)
-		{
-			_putchar("("(null)"[i]);
-		}
-}
-	else
-	{
 	while (*str)
 	{
-		_putchar(*str);
-		len++;
-		str++;
-	}
+		if ((int)*str < 32 || (int)*str >= 127)
+		{
+			chars_count += print_number((int)*str);
+			chars_count += _putchar('\\');
+			chars_count += _putchar('x');
+		}
+			else
+			{
+			chars_count += _putchar(*str);
+			}
+			str++;
 	}
 
-return (len);
+	return (chars_count);
 }
