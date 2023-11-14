@@ -11,10 +11,11 @@ int print_string(const char *str)
 			int i, len;
 
 				if (!str)
+					{
 					str = "(null)";
 
 					len = _strlen(str);
-
+					}
 				for (i = 0; i < len; i++)
 					_putchar(str[i]);
 
