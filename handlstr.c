@@ -8,14 +8,21 @@
 
 int print_string(const char *str)
 {
-	int i, len;
+    int i, len = 0;
 
-	if (!str)
-		str = "(null)";
+    if (!str) {
+        len = 5; // Length of "(null)"
+        for (i = 0; i < len; i++) {
+            _putchar("("(null)"[i]);
+        }
+    } else {
+        while (*str) {
+            _putchar(*str);
+            len++;
+            str++;
+        }
+    }
 
-	len = _strlen(str);
-	for (i = 0; i < len; i++)
-		_putchar(str[i]);
-
-	return (len);
+    return (len);
 }
+
