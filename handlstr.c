@@ -8,21 +8,25 @@
 
 int print_string(const char *str)
 {
-    int i, len = 0;
+	int i, len = 0;
 
-    if (!str) {
-        len = 5; // Length of "(null)"
-        for (i = 0; i < len; i++) {
-            _putchar("("(null)"[i]);
-        }
-    } else {
-        while (*str) {
-            _putchar(*str);
-            len++;
-            str++;
-        }
-    }
-
-    return (len);
+	if (!str)
+{
+		len = 5;
+		for (i = 0; i < len; i++)
+		{
+			_putchar("("(null)"[i]);
+		}
 }
+	else
+	{
+	while (*str)
+	{
+		_putchar(*str);
+		len++;
+		str++;
+	}
+	}
 
+return (len);
+}
